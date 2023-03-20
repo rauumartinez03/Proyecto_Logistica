@@ -7,12 +7,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runners.MethodSorters;
 
 import com.google.gson.Gson;
 
@@ -37,7 +35,6 @@ import io.vertx.junit5.Checkpoint;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ExtendWith(VertxExtension.class)
 public class ActuatorStatusControllerTest {
 
@@ -224,8 +221,6 @@ public class ActuatorStatusControllerTest {
 										DatabaseMessage.class);
 								ActuatorStatus[] returnObject = gson.fromJson(databaseMessage.getResponseBody(),
 										ActuatorStatus[].class);
-								List<ActuatorStatus> subList = actuatorStatesAdded
-										.subList(actuatorStatesAdded.size() - 10, actuatorStatesAdded.size());
 								for (ActuatorStatus s : actuatorStatesAdded.subList(actuatorStatesAdded.size() - 10,
 										actuatorStatesAdded.size())) {
 									if (Stream.of(returnObject).noneMatch(elem -> elem.equalsWithNoIdConsidered(s))) {
