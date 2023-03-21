@@ -1,11 +1,43 @@
 package es.us.dad.mysql.entities;
 
+/**
+ * Representation of the Actuator entity. An actuator will be associated to a
+ * device through the device id. Said actuator will be associated with its
+ * states defined through the ActuatorStatus entity.
+ * 
+ * @author luismi
+ *
+ */
 public class Actuator {
 
+	/**
+	 * Actuator name. It can be used to differentiate between different actuators
+	 * associated with the same device.
+	 */
 	private String name;
+
+	/**
+	 * Identifier that represents the actuator and serves as the primary key. Each
+	 * actuator associated with a plate will have a unique identifier in the
+	 * database.
+	 */
 	private Integer idActuator;
+
+	/**
+	 * Device identifier to which the actuator is linked
+	 */
 	private Integer idDevice;
+
+	/**
+	 * Actuator type that will be defined through the ActuatorType enumerator
+	 */
 	private ActuatorType actuatorType;
+
+	/**
+	 * Logical value indicating if the actuator has been removed. The elimination is
+	 * done by marking this field to true, so the value is never permanently
+	 * eliminated from the database.
+	 */
 	private Boolean removed;
 
 	public Actuator() {
@@ -131,7 +163,7 @@ public class Actuator {
 			return false;
 		return true;
 	}
-	
+
 	public boolean equalsWithNoIdConsidered(Object obj) {
 		if (this == obj)
 			return true;

@@ -1,10 +1,35 @@
 package es.us.dad.mysql.entities;
 
+/**
+ * This entity represents a grouping of devices that share certain business
+ * logic characteristics and whose sensors and actuators are connected in some
+ * logical (not necessarily physical) way.
+ * 
+ * @author luismi
+ *
+ */
 public class Group {
 
+	/**
+	 * Group identifier
+	 */
 	private Integer idGroup;
+
+	/**
+	 * MQTT channel that is shared by all devices in the group represented by this
+	 * entity. All the messages that must be exchanged between the service and all
+	 * the devices of a certain group will be done through this channel.
+	 */
 	private String mqttChannel;
+
+	/**
+	 * Group name
+	 */
 	private String name;
+
+	/**
+	 * Timestamp of the last message received through a device in this group.
+	 */
 	private Long lastMessageReceived;
 
 	public Group() {

@@ -1,12 +1,54 @@
 package es.us.dad.mysql.entities;
 
+/**
+ * This class represents the states associated with an actuator. Every time the
+ * state of a certain actuator is changed, a new instance of this entity will be
+ * generated in the database. The states in the database are never overwritten,
+ * but new ones are generated with their corresponding timestamp.
+ * 
+ * @author luismi
+ *
+ */
 public class ActuatorStatus {
 
+	/**
+	 * Primary key associated with the actuator state. This identifier is unique for
+	 * each value of an actuator in the database. In this way, each time the
+	 * actuator state is modified and it is stored in the database, a new tuple will
+	 * be generated with a new identifier.
+	 */
 	private Integer idActuatorState;
+
+	/**
+	 * Numeric status of the actuator. Useful for actuators whose state can be
+	 * represented numerically (angle of rotation, speed of rotation, etc...)
+	 */
 	private Float status;
+
+	/**
+	 * Binary state of the actuator. Useful for actuators whose status can be
+	 * represented by a logic value (relay on or off, led on or off, motor running
+	 * or stopped, etc.)
+	 */
 	private Boolean statusBinary;
+
+	/**
+	 * Identifier of the actuator on which said status has been applied. This
+	 * actuator uniquely represents an actuator connected to a device.
+	 */
 	private Integer idActuator;
+
+	/**
+	 * Timestamp in which the status of the actuator is applied. The timestamp is
+	 * expressed in unix time, defined as the milliseconds since January 1, 1970.
+	 */
 	private Long timestamp;
+
+	/**
+	 * Logical value indicating if the actuator status has been removed. The
+	 * elimination is done by marking this field to true, so the value is never
+	 * permanently eliminated from the database.
+	 */
 	private Boolean removed;
 
 	public ActuatorStatus() {

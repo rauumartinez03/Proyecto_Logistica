@@ -213,8 +213,10 @@ public class MySQLVerticle extends AbstractVerticle {
 						long lastInsertId = res.result().property(MySQLClient.LAST_INSERTED_ID);
 						group.setIdGroup((int) lastInsertId);
 						databaseMessage.setResponseBody(group);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
+						message.fail(100, res.cause().getLocalizedMessage());
 						System.err.println(res.cause());
 					}
 				});
@@ -232,6 +234,7 @@ public class MySQLVerticle extends AbstractVerticle {
 							elem.getLong("lastMessageReceived"));
 				}
 				databaseMessage.setResponseBody(group);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -247,6 +250,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(group);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -259,6 +263,7 @@ public class MySQLVerticle extends AbstractVerticle {
 		mySqlClient.preparedQuery("DELETE FROM dad_database.groups WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
 			if (res.succeeded()) {
 				databaseMessage.setResponseBody(idGroup);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -271,6 +276,7 @@ public class MySQLVerticle extends AbstractVerticle {
 		mySqlClient.preparedQuery("DELETE FROM dad_database.groups WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
 			if (res.succeeded()) {
 				databaseMessage.setResponseBody(idGroup);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -294,6 +300,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						long lastInsertId = res.result().property(MySQLClient.LAST_INSERTED_ID);
 						device.setIdDevice((int) lastInsertId);
 						databaseMessage.setResponseBody(device);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(500, "Error");
@@ -315,6 +322,7 @@ public class MySQLVerticle extends AbstractVerticle {
 							elem.getLong("lastTimestampSensorModified"), elem.getLong("lastTimestampActuatorModified"));
 				}
 				databaseMessage.setResponseBody(device);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -332,6 +340,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(device);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -344,6 +353,7 @@ public class MySQLVerticle extends AbstractVerticle {
 		mySqlClient.preparedQuery("DELETE FROM dad_database.devices WHERE idDevice = ?;", Tuple.of(idDevice), res -> {
 			if (res.succeeded()) {
 				databaseMessage.setResponseBody(idDevice);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -364,6 +374,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				}
 
 				databaseMessage.setResponseBody(result);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -386,6 +397,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						}
 
 						databaseMessage.setResponseBody(result);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -409,6 +421,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						}
 
 						databaseMessage.setResponseBody(result);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -432,6 +445,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						}
 
 						databaseMessage.setResponseBody(result);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -445,6 +459,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				Tuple.of(device.getIdGroup(), device.getIdDevice()), res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(device);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -467,6 +482,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				}
 
 				databaseMessage.setResponseBody(result);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -488,6 +504,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						long lastInsertId = res.result().property(MySQLClient.LAST_INSERTED_ID);
 						sensor.setIdSensor((int) lastInsertId);
 						databaseMessage.setResponseBody(sensor);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -508,6 +525,7 @@ public class MySQLVerticle extends AbstractVerticle {
 							elem.getInteger("idDevice"), elem.getString("sensorType"), elem.getBoolean("removed"));
 				}
 				databaseMessage.setResponseBody(sensor);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -524,6 +542,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(sensor);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -536,6 +555,7 @@ public class MySQLVerticle extends AbstractVerticle {
 		mySqlClient.preparedQuery("DELETE FROM dad_database.sensors WHERE idSensor = ?;", Tuple.of(idSensor), res -> {
 			if (res.succeeded()) {
 				databaseMessage.setResponseBody(idSensor);
+				databaseMessage.setStatusCode(200);
 				message.reply(gson.toJson(databaseMessage));
 			} else {
 				message.fail(100, res.cause().getLocalizedMessage());
@@ -559,6 +579,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						long lastInsertId = res.result().property(MySQLClient.LAST_INSERTED_ID);
 						sensorValue.setIdSensorValue((int) lastInsertId);
 						databaseMessage.setResponseBody(sensorValue);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -572,6 +593,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				Tuple.of(idSensorValue), res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(idSensorValue);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -595,6 +617,7 @@ public class MySQLVerticle extends AbstractVerticle {
 									elem.getInteger("idSensor"), elem.getLong("timestamp"), elem.getBoolean("removed"));
 						}
 						databaseMessage.setResponseBody(sensorValue);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -618,6 +641,7 @@ public class MySQLVerticle extends AbstractVerticle {
 									elem.getBoolean("removed")));
 						}
 						databaseMessage.setResponseBody(sensorValues);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -640,6 +664,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						long lastInsertId = res.result().property(MySQLClient.LAST_INSERTED_ID);
 						actuator.setIdActuator((int) lastInsertId);
 						databaseMessage.setResponseBody(actuator);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -662,6 +687,7 @@ public class MySQLVerticle extends AbstractVerticle {
 									elem.getBoolean("removed"));
 						}
 						databaseMessage.setResponseBody(actuator);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -678,6 +704,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(actuator);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -691,6 +718,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(idActuator);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -714,6 +742,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						long lastInsertId = res.result().property(MySQLClient.LAST_INSERTED_ID);
 						actuatorState.setIdActuatorState((int) lastInsertId);
 						databaseMessage.setResponseBody(actuatorState);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -728,6 +757,7 @@ public class MySQLVerticle extends AbstractVerticle {
 				Tuple.of(idActuatorStatus), res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(idActuatorStatus);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -753,6 +783,7 @@ public class MySQLVerticle extends AbstractVerticle {
 									elem.getBoolean("removed"));
 						}
 						databaseMessage.setResponseBody(actuatorStatus);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());
@@ -777,6 +808,7 @@ public class MySQLVerticle extends AbstractVerticle {
 											elem.getLong("timestamp"), elem.getBoolean("removed")));
 						}
 						databaseMessage.setResponseBody(actuatorStates);
+						databaseMessage.setStatusCode(200);
 						message.reply(gson.toJson(databaseMessage));
 					} else {
 						message.fail(100, res.cause().getLocalizedMessage());

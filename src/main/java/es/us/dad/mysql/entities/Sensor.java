@@ -1,11 +1,42 @@
 package es.us.dad.mysql.entities;
 
+/**
+ * Representation of the Sensor entity. A sensor will be associated to a device
+ * through the device id. The sensor values defined through the SensorValue
+ * entity will be associated to said sensor.
+ * 
+ * @author luismi
+ *
+ */
 public class Sensor {
 
+	/**
+	 * Sensor name. It can be used to differentiate between different sensors
+	 * associated with the same device.
+	 */
 	private String name;
+
+	/**
+	 * Identifier that represents the sensor and serves as the primary key. Each
+	 * sensor associated with a board will have a unique identifier in the database.
+	 */
 	private Integer idSensor;
+
+	/**
+	 * Device identifier to which the sensor is linked
+	 */
 	private Integer idDevice;
+
+	/**
+	 * Sensor type that will be defined through the SensorType enumerator
+	 */
 	private SensorType sensorType;
+
+	/**
+	 * Logical value indicating if the sensor has been removed. The elimination is
+	 * done by marking this field to true, so the value is never permanently
+	 * eliminated from the database.
+	 */
 	private Boolean removed;
 
 	public Sensor() {
@@ -131,7 +162,7 @@ public class Sensor {
 			return false;
 		return true;
 	}
-	
+
 	public boolean equalsWithNoIdConsidered(Object obj) {
 		if (this == obj)
 			return true;
