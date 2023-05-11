@@ -35,7 +35,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	public void start(Promise<Void> startFuture) {
 		MySQLConnectOptions connectOptions = new MySQLConnectOptions().setPort(3306).setHost("localhost")
-				.setDatabase("dad_database").setUser("root").setPassword("rootroot");
+				.setDatabase("proyecto_dad_main").setUser("dad_root").setPassword("dad$root");
 
 		PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
 
@@ -207,7 +207,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void createGroup(Group group, DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"INSERT INTO dad_database.groups (name, mqttChannel, lastMessageReceived) VALUES (?,?,?);",
+				"INSERT INTO proyecto_dad_main.groups (name, mqttChannel, lastMessageReceived) VALUES (?,?,?);",
 				Tuple.of(group.getName(), group.getMqttChannel(), group.getLastMessageReceived()), res -> {
 					if (res.succeeded()) {
 						long lastInsertId = res.result().property(MySQLClient.LAST_INSERTED_ID);
@@ -223,7 +223,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void getGroup(int idGroup, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.groups WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.groups WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
 			if (res.succeeded()) {
 				// Get the result set
 				RowSet<Row> resultSet = res.result();
@@ -245,7 +245,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void editGroup(Group group, DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"UPDATE dad_database.groups g SET name = COALESCE(?, g.name), mqttChannel = COALESCE(?, g.mqttChannel), lastMessageReceived = COALESCE(?, g.lastMessageReceived) WHERE idGroup = ?;",
+				"UPDATE proyecto_dad_main.groups g SET name = COALESCE(?, g.name), mqttChannel = COALESCE(?, g.mqttChannel), lastMessageReceived = COALESCE(?, g.lastMessageReceived) WHERE idGroup = ?;",
 				Tuple.of(group.getName(), group.getMqttChannel(), group.getLastMessageReceived(), group.getIdGroup()),
 				res -> {
 					if (res.succeeded()) {
@@ -260,7 +260,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void deleteGroup(int idGroup, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("DELETE FROM dad_database.groups WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
+		mySqlClient.preparedQuery("DELETE FROM proyecto_dad_main.groups WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
 			if (res.succeeded()) {
 				databaseMessage.setResponseBody(idGroup);
 				databaseMessage.setStatusCode(200);
@@ -273,7 +273,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void setDeviceToGroup(int idGroup, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("DELETE FROM dad_database.groups WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
+		mySqlClient.preparedQuery("DELETE FROM proyecto_dad_main.groups WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
 			if (res.succeeded()) {
 				databaseMessage.setResponseBody(idGroup);
 				databaseMessage.setStatusCode(200);
@@ -291,7 +291,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void createDevice(Device device, DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"INSERT INTO dad_database.devices (deviceSerialId, name, idGroup, mqttChannel, lastTimestampSensorModified,"
+				"INSERT INTO proyecto_dad_main.devices (deviceSerialId, name, idGroup, mqttChannel, lastTimestampSensorModified,"
 						+ " lastTimestampActuatorModified) VALUES (?,?,?,?,?,?);",
 				Tuple.of(device.getDeviceSerialId(), device.getName(), device.getIdGroup(), device.getMqttChannel(),
 						device.getLastTimestampSensorModified(), device.getLastTimestampActuatorModified()),
@@ -310,7 +310,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void getDevice(int idDevice, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.devices WHERE idDevice = ?;", Tuple.of(idDevice), res -> {
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.devices WHERE idDevice = ?;", Tuple.of(idDevice), res -> {
 			if (res.succeeded()) {
 				// Get the result set
 				RowSet<Row> resultSet = res.result();
@@ -333,7 +333,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void editDevice(Device device, DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"UPDATE dad_database.devices g SET deviceSerialId = COALESCE(?, g.deviceSerialId), name = COALESCE(?, g.name), idGroup = COALESCE(?, g.idGroup), mqttChannel = COALESCE(?, g.mqttChannel), lastTimestampSensorModified = COALESCE(?, g.lastTimestampSensorModified), lastTimestampActuatorModified = COALESCE(?, g.lastTimestampActuatorModified) WHERE idDevice = ?;",
+				"UPDATE proyecto_dad_main.devices g SET deviceSerialId = COALESCE(?, g.deviceSerialId), name = COALESCE(?, g.name), idGroup = COALESCE(?, g.idGroup), mqttChannel = COALESCE(?, g.mqttChannel), lastTimestampSensorModified = COALESCE(?, g.lastTimestampSensorModified), lastTimestampActuatorModified = COALESCE(?, g.lastTimestampActuatorModified) WHERE idDevice = ?;",
 				Tuple.of(device.getDeviceSerialId(), device.getName(), device.getIdGroup(), device.getMqttChannel(),
 						device.getLastTimestampSensorModified(), device.getLastTimestampActuatorModified(),
 						device.getIdDevice()),
@@ -350,7 +350,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void deleteDevice(int idDevice, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("DELETE FROM dad_database.devices WHERE idDevice = ?;", Tuple.of(idDevice), res -> {
+		mySqlClient.preparedQuery("DELETE FROM proyecto_dad_main.devices WHERE idDevice = ?;", Tuple.of(idDevice), res -> {
 			if (res.succeeded()) {
 				databaseMessage.setResponseBody(idDevice);
 				databaseMessage.setStatusCode(200);
@@ -363,7 +363,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void getSensorsFromDeviceId(int idDevice, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.sensors WHERE idDevice = ?;", Tuple.of(idDevice), res -> {
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.sensors WHERE idDevice = ?;", Tuple.of(idDevice), res -> {
 			if (res.succeeded()) {
 				// Get the result set
 				RowSet<Row> resultSet = res.result();
@@ -384,7 +384,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void getActuatorsFromDeviceId(int idDevice, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.actuators WHERE idDevice = ?;", Tuple.of(idDevice),
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.actuators WHERE idDevice = ?;", Tuple.of(idDevice),
 				res -> {
 					if (res.succeeded()) {
 						// Get the result set
@@ -408,7 +408,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void getSensorsFromDeviceIdAndSensorType(DatabaseMessageIdAndSensorType queryParams,
 			DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.sensors WHERE idDevice = ? AND sensorType = ?;",
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.sensors WHERE idDevice = ? AND sensorType = ?;",
 				Tuple.of(queryParams.getId(), queryParams.getSensorTypeAsString()), res -> {
 					if (res.succeeded()) {
 						// Get the result set
@@ -432,7 +432,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void getActuatorsFromDeviceIdAndActuatorType(DatabaseMessageIdAndActuatorType queryParams,
 			DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.actuators WHERE idDevice = ? AND actuatorType = ?;",
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.actuators WHERE idDevice = ? AND actuatorType = ?;",
 				Tuple.of(queryParams.getId(), queryParams.getActuatorTypeAsString()), res -> {
 					if (res.succeeded()) {
 						// Get the result set
@@ -455,7 +455,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void addDeviceToGroup(Device device, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("UPDATE dad_database.devices SET idGroup = ? WHERE idDevice = ?;",
+		mySqlClient.preparedQuery("UPDATE proyecto_dad_main.devices SET idGroup = ? WHERE idDevice = ?;",
 				Tuple.of(device.getIdGroup(), device.getIdDevice()), res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(device);
@@ -469,7 +469,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void getDevicesFromGroupId(int idGroup, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.devices WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.devices WHERE idGroup = ?;", Tuple.of(idGroup), res -> {
 			if (res.succeeded()) {
 				// Get the result set
 				RowSet<Row> resultSet = res.result();
@@ -497,7 +497,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void createSensor(Sensor sensor, DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"INSERT INTO dad_database.sensors (name, idDevice, sensorType, removed) VALUES (?,?,?,?);",
+				"INSERT INTO proyecto_dad_main.sensors (name, idDevice, sensorType, removed) VALUES (?,?,?,?);",
 				Tuple.of(sensor.getName(), sensor.getIdDevice(), sensor.getSensorType().name(), sensor.isRemoved()),
 				res -> {
 					if (res.succeeded()) {
@@ -514,7 +514,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void getSensor(int idSensor, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.sensors WHERE idSensor = ?;", Tuple.of(idSensor), res -> {
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.sensors WHERE idSensor = ?;", Tuple.of(idSensor), res -> {
 			if (res.succeeded()) {
 				// Get the result set
 				RowSet<Row> resultSet = res.result();
@@ -536,7 +536,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void editSensor(Sensor sensor, DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"UPDATE dad_database.sensors g SET name = COALESCE(?, g.name), idDevice = COALESCE(?, g.idDevice), sensorType = COALESCE(?, g.sensorType), removed = COALESCE(?, g.removed) WHERE idSensor = ?;",
+				"UPDATE proyecto_dad_main.sensors g SET name = COALESCE(?, g.name), idDevice = COALESCE(?, g.idDevice), sensorType = COALESCE(?, g.sensorType), removed = COALESCE(?, g.removed) WHERE idSensor = ?;",
 				Tuple.of(sensor.getName(), sensor.getIdDevice(), sensor.getSensorType(), sensor.isRemoved(),
 						sensor.getIdSensor()),
 				res -> {
@@ -552,7 +552,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void deleteSensor(int idSensor, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("DELETE FROM dad_database.sensors WHERE idSensor = ?;", Tuple.of(idSensor), res -> {
+		mySqlClient.preparedQuery("DELETE FROM proyecto_dad_main.sensors WHERE idSensor = ?;", Tuple.of(idSensor), res -> {
 			if (res.succeeded()) {
 				databaseMessage.setResponseBody(idSensor);
 				databaseMessage.setStatusCode(200);
@@ -571,9 +571,9 @@ public class MySQLVerticle extends AbstractVerticle {
 	protected void createSensorValue(SensorValue sensorValue, DatabaseMessage databaseMessage,
 			Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"INSERT INTO dad_database.sensorValues (value, idSensor, timestamp, removed) VALUES (?,?,?,?);",
+				"INSERT INTO proyecto_dad_main.sensorValues (value, idSensor, timestamp, removed, boxNumber) VALUES (?,?,?,?,?);",
 				Tuple.of(sensorValue.getValue(), sensorValue.getIdSensor(), sensorValue.getTimestamp(),
-						sensorValue.isRemoved()),
+						sensorValue.isRemoved(), sensorValue.getBoxNumber()),
 				res -> {
 					if (res.succeeded()) {
 						long lastInsertId = res.result().property(MySQLClient.LAST_INSERTED_ID);
@@ -589,7 +589,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void deleteSensorValue(int idSensorValue, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("DELETE FROM dad_database.sensorValues WHERE idSensorValue = ?;",
+		mySqlClient.preparedQuery("DELETE FROM proyecto_dad_main.sensorValues WHERE idSensorValue = ?;",
 				Tuple.of(idSensorValue), res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(idSensorValue);
@@ -605,7 +605,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	protected void getLastSensorValueFromSensorId(int idSensor, DatabaseMessage databaseMessage,
 			Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"SELECT * FROM dad_database.sensorValues WHERE idSensor = ? ORDER BY `timestamp` DESC LIMIT 1;",
+				"SELECT * FROM proyecto_dad_main.sensorValues WHERE idSensor = ? ORDER BY `timestamp` DESC LIMIT 1;",
 				Tuple.of(idSensor), res -> {
 					if (res.succeeded()) {
 						// Get the result set
@@ -614,7 +614,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						if (resultSet.iterator().hasNext()) {
 							Row elem = resultSet.iterator().next();
 							sensorValue = new SensorValue(elem.getInteger("idSensorValue"), elem.getFloat("value"),
-									elem.getInteger("idSensor"), elem.getLong("timestamp"), elem.getBoolean("removed"));
+									elem.getInteger("idSensor"), elem.getLong("timestamp"), elem.getBoolean("removed"), elem.getInteger("boxNumber"));
 						}
 						databaseMessage.setResponseBody(sensorValue);
 						databaseMessage.setStatusCode(200);
@@ -629,7 +629,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	protected void getLatestSensorValuesFromSensorId(DatabaseMessageLatestValues queryParam,
 			DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"SELECT * FROM dad_database.sensorValues WHERE idSensor = ? ORDER BY `timestamp` DESC LIMIT ?;",
+				"SELECT * FROM proyecto_dad_main.sensorValues WHERE idSensor = ? ORDER BY `timestamp` DESC LIMIT ?;",
 				Tuple.of(queryParam.getId(), queryParam.getLimit()), res -> {
 					if (res.succeeded()) {
 						// Get the result set
@@ -638,7 +638,7 @@ public class MySQLVerticle extends AbstractVerticle {
 						for (Row elem : resultSet) {
 							sensorValues.add(new SensorValue(elem.getInteger("idSensorValue"), elem.getFloat("value"),
 									elem.getInteger("idSensor"), elem.getLong("timestamp"),
-									elem.getBoolean("removed")));
+									elem.getBoolean("removed"), elem.getInteger("boxNumber")));
 						}
 						databaseMessage.setResponseBody(sensorValues);
 						databaseMessage.setStatusCode(200);
@@ -656,7 +656,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void createActuator(Actuator actuator, DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"INSERT INTO dad_database.actuators (name, idDevice, actuatorType, removed) VALUES (?,?,?,?);",
+				"INSERT INTO proyecto_dad_main.actuators (name, idDevice, actuatorType, removed) VALUES (?,?,?,?);",
 				Tuple.of(actuator.getName(), actuator.getIdDevice(), actuator.getActuatorType().name(),
 						actuator.isRemoved()),
 				res -> {
@@ -674,7 +674,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void getActuator(int idActuator, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("SELECT * FROM dad_database.actuators WHERE idActuator = ?;", Tuple.of(idActuator),
+		mySqlClient.preparedQuery("SELECT * FROM proyecto_dad_main.actuators WHERE idActuator = ?;", Tuple.of(idActuator),
 				res -> {
 					if (res.succeeded()) {
 						// Get the result set
@@ -698,7 +698,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void editActuator(Actuator actuator, DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"UPDATE dad_database.actuators g SET name = COALESCE(?, g.name), idDevice = COALESCE(?, g.idDevice), actuatorType = COALESCE(?, g.actuatorType), removed = COALESCE(?, g.removed) WHERE idActuator = ?;",
+				"UPDATE proyecto_dad_main.actuators g SET name = COALESCE(?, g.name), idDevice = COALESCE(?, g.idDevice), actuatorType = COALESCE(?, g.actuatorType), removed = COALESCE(?, g.removed) WHERE idActuator = ?;",
 				Tuple.of(actuator.getName(), actuator.getIdDevice(), actuator.getActuatorType(), actuator.isRemoved(),
 						actuator.getIdActuator()),
 				res -> {
@@ -714,7 +714,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	}
 
 	protected void deleteActuator(int idActuator, DatabaseMessage databaseMessage, Message<Object> message) {
-		mySqlClient.preparedQuery("DELETE FROM dad_database.actuators WHERE idActuator = ?;", Tuple.of(idActuator),
+		mySqlClient.preparedQuery("DELETE FROM proyecto_dad_main.actuators WHERE idActuator = ?;", Tuple.of(idActuator),
 				res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(idActuator);
@@ -734,7 +734,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	protected void createActuatorStatus(ActuatorStatus actuatorState, DatabaseMessage databaseMessage,
 			Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"INSERT INTO dad_database.actuatorStates (status, statusBinary, idActuator, timestamp, removed) VALUES (?,?,?,?,?);",
+				"INSERT INTO proyecto_dad_main.actuatorStates (status, statusBinary, idActuator, timestamp, removed) VALUES (?,?,?,?,?);",
 				Tuple.of(actuatorState.getStatus(), actuatorState.isStatusBinary(), actuatorState.getIdActuator(),
 						actuatorState.getTimestamp(), actuatorState.isRemoved()),
 				res -> {
@@ -753,7 +753,7 @@ public class MySQLVerticle extends AbstractVerticle {
 
 	protected void deleteActuatorStatus(int idActuatorStatus, DatabaseMessage databaseMessage,
 			Message<Object> message) {
-		mySqlClient.preparedQuery("DELETE FROM dad_database.idActuatorState WHERE idSensorValue = ?;",
+		mySqlClient.preparedQuery("DELETE FROM proyecto_dad_main.actuatorStates WHERE idActuatorState = ?;",
 				Tuple.of(idActuatorStatus), res -> {
 					if (res.succeeded()) {
 						databaseMessage.setResponseBody(idActuatorStatus);
@@ -769,7 +769,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	protected void getLastActuatorStatusFromActuatorId(int idActuator, DatabaseMessage databaseMessage,
 			Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"SELECT * FROM dad_database.actuatorStates WHERE idActuator = ? ORDER BY `timestamp` DESC LIMIT 1;",
+				"SELECT * FROM proyecto_dad_main.actuatorStates WHERE idActuator = ? ORDER BY `timestamp` DESC LIMIT 1;",
 				Tuple.of(idActuator), res -> {
 					if (res.succeeded()) {
 						// Get the result set
@@ -795,7 +795,7 @@ public class MySQLVerticle extends AbstractVerticle {
 	protected void getLatestActuatorStatesFromActuatorId(DatabaseMessageLatestValues queryParam,
 			DatabaseMessage databaseMessage, Message<Object> message) {
 		mySqlClient.preparedQuery(
-				"SELECT * FROM dad_database.actuatorStates WHERE idActuator = ? ORDER BY `timestamp` DESC LIMIT ?;",
+				"SELECT * FROM proyecto_dad_main.actuatorStates WHERE idActuator = ? ORDER BY `timestamp` DESC LIMIT ?;",
 				Tuple.of(queryParam.getId(), queryParam.getLimit()), res -> {
 					if (res.succeeded()) {
 						// Get the result set

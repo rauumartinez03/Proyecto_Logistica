@@ -95,7 +95,7 @@ public class SensorValueControllerTest {
 	@Test
 	@DisplayName("testACreate")
 	public void testACreate(Vertx vertx, VertxTestContext testContext) {
-		SensorValue sensor = new SensorValue(19.5f, 10, Calendar.getInstance().getTimeInMillis(), false);
+		SensorValue sensor = new SensorValue(19.5f, 10, Calendar.getInstance().getTimeInMillis(), false, 0);
 		vertx.eventBus().request(RestEntityMessage.SensorValue.getAddress(),
 				gson.toJson(new DatabaseMessage(DatabaseMessageType.INSERT, DatabaseEntity.SensorValue,
 						DatabaseMethod.CreateSensorValue, sensor)),
@@ -123,11 +123,11 @@ public class SensorValueControllerTest {
 		SensorValue lastInsertedValue = new SensorValue();
 		VertxTestContext testContextInsertPre = new VertxTestContext();
 		VertxTestContext testContextInsert = new VertxTestContext();
-		SensorValue sensor = new SensorValue(1.2f, 71, Calendar.getInstance().getTimeInMillis(), false);
+		SensorValue sensor = new SensorValue(1.2f, 71, Calendar.getInstance().getTimeInMillis(), false, 0);
 
 		for (int i = 0; i < 10; i++) {
 			SensorValue sensorValue = new SensorValue(sensor.getValue(), sensor.getIdSensor(),
-					Calendar.getInstance().getTimeInMillis(), sensor.isRemoved());
+					Calendar.getInstance().getTimeInMillis(), sensor.isRemoved(), sensor.getBoxNumber());
 			vertx.eventBus().send(RestEntityMessage.SensorValue.getAddress(),
 					gson.toJson(new DatabaseMessage(DatabaseMessageType.INSERT, DatabaseEntity.SensorValue,
 							DatabaseMethod.CreateSensorValue, sensorValue)));
@@ -182,7 +182,7 @@ public class SensorValueControllerTest {
 	public void testCGetLatestSensorValuesFromSensorId(Vertx vertx, VertxTestContext testContext)
 			throws InterruptedException {
 		VertxTestContext testContextInsert = new VertxTestContext();
-		SensorValue sensorValueOriginal = new SensorValue(1.2f, 71, Calendar.getInstance().getTimeInMillis(), false);
+		SensorValue sensorValueOriginal = new SensorValue(1.2f, 71, Calendar.getInstance().getTimeInMillis(), false, 0);
 
 		List<SensorValue> sensorValuesAdded = new ArrayList<SensorValue>();
 
@@ -190,7 +190,7 @@ public class SensorValueControllerTest {
 			try {
 				SensorValue sensorValue = new SensorValue(sensorValueOriginal.getValue() + (float) Math.random() * 10f,
 						sensorValueOriginal.getIdSensor(), Calendar.getInstance().getTimeInMillis() + i,
-						sensorValueOriginal.isRemoved());
+						sensorValueOriginal.isRemoved(), sensorValueOriginal.getBoxNumber());
 				sensorValuesAdded.add(sensorValue);
 				
 			} catch (Exception e) {

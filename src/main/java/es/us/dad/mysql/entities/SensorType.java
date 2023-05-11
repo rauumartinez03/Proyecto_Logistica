@@ -8,5 +8,5 @@ package es.us.dad.mysql.entities;
  *
  */
 public enum SensorType {
-	Temperature, Humidity, Pressure, Luminosity, SoilHumidity, SunIrradiation, Power, EnergyConsumption
+	Temperature, Humidity, Pressure, Luminosity, SoilHumidity, SunIrradiation, Power, EnergyConsumption, Ultrasound_Width, Ultrasound_Height, Ultrasound_Depth
 }

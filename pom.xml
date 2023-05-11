@@ -40,5 +40,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-mqtt</artifactId>
+			<version>3.8.5</version>
+		</dependency>
+
 	</dependencies>
 </project>
